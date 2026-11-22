@@ -6,7 +6,7 @@
 
 Official reproducible code repository, trained model artifacts, and interactive forecasting web application accompanying:
 
-> **Aygün, E. N. (2026).** *Bibliographic characteristics and journal context associated with early and five-year citation accumulation.*
+> **Aygün, İ. (2026).** *Bibliographic characteristics and journal context associated with early and five-year citation accumulation.*
 
 ## Repository Structure
 
