@@ -1,0 +1,1362 @@
+{
+  "primary_fe_v6": {
+    "n_unique_works": 75621,
+    "n_cells": 12633,
+    "n_clusters": 9623,
+    "n_boot": 500,
+    "rows": [
+      {
+        "feature": "referans_sayisi",
+        "label": "Referans Sayısı (OpenAlex Eşleşen)",
+        "beta_c1": 0.2069,
+        "se_c1": 0.0178,
+        "beta_c5": 0.2576,
+        "se_c5": 0.0247,
+        "t_c5": 10.43,
+        "p_c5": 1.8263032609937074e-25,
+        "beta_c5m1": 0.2696,
+        "se_c5m1": 0.0263,
+        "delta_beta_std": 0.0507,
+        "delta_beta_cluster_ci95": [
+          0.039,
+          0.0649
+        ],
+        "beta_c1_unstd_log1p": 0.181,
+        "se_c1_unstd": 0.0155,
+        "beta_c5_unstd_log1p": 0.2276,
+        "se_c5_unstd": 0.0218,
+        "beta_c5m1_unstd_log1p": 0.2377,
+        "delta_unstd_log1p": 0.0466,
+        "delta_unstd_cluster_ci95": [
+          0.036,
+          0.0594
+        ],
+        "beta_log05_ols_sens": 0.2476,
+        "beta_2020_c1": 0.199,
+        "beta_2020_c5": 0.2519,
+        "delta_2020_unstd": 0.0497,
+        "delta_2020_unstd_ci95": [
+          0.0385,
+          0.0621
+        ],
+        "beta_2021_c1": 0.2264,
+        "beta_2021_c5": 0.2751,
+        "delta_2021_unstd": 0.0441,
+        "delta_2021_unstd_ci95": [
+          0.0321,
+          0.0578
+        ],
+        "beta_strict_noref_recentered_c5": 0.2617,
+        "beta_strict_withref_recentered_c5": 0.2666
+      },
+      {
+        "feature": "farkli_ulke_sayisi",
+        "label": "Uluslararası Ülke Çeşitliliği",
+        "beta_c1": 0.0871,
+        "se_c1": 0.0137,
+        "beta_c5": 0.0957,
+        "se_c5": 0.0163,
+        "t_c5": 5.86,
+        "p_c5": 4.640905336157005e-09,
+        "beta_c5m1": 0.1017,
+        "se_c5m1": 0.0173,
+        "delta_beta_std": 0.0087,
+        "delta_beta_cluster_ci95": [
+          -0.0054,
+          0.0163
+        ],
+        "beta_c1_unstd_log1p": 0.0761,
+        "se_c1_unstd": 0.012,
+        "beta_c5_unstd_log1p": 0.0845,
+        "se_c5_unstd": 0.0144,
+        "beta_c5m1_unstd_log1p": 0.0897,
+        "delta_unstd_log1p": 0.0084,
+        "delta_unstd_cluster_ci95": [
+          -0.0041,
+          0.0151
+        ],
+        "beta_log05_ols_sens": 0.0917,
+        "beta_2020_c1": 0.0684,
+        "beta_2020_c5": 0.0726,
+        "delta_2020_unstd": 0.004,
+        "delta_2020_unstd_ci95": [
+          -0.0043,
+          0.0121
+        ],
+        "beta_2021_c1": 0.0966,
+        "beta_2021_c5": 0.1063,
+        "delta_2021_unstd": 0.0096,
+        "delta_2021_unstd_ci95": [
+          -0.009,
+          0.0172
+        ],
+        "beta_strict_noref_recentered_c5": 0.0676,
+        "beta_strict_withref_recentered_c5": 0.0711
+      },
+      {
+        "feature": "yazar_sayisi",
+        "label": "Yazar Sayısı (Ekip Büyüklüğü)",
+        "beta_c1": 0.0891,
+        "se_c1": 0.009,
+        "beta_c5": 0.079,
+        "se_c5": 0.0117,
+        "t_c5": 6.78,
+        "p_c5": 1.2131009820604273e-11,
+        "beta_c5m1": 0.0719,
+        "se_c5m1": 0.0129,
+        "delta_beta_std": -0.0101,
+        "delta_beta_cluster_ci95": [
+          -0.019,
+          -0.004
+        ],
+        "beta_c1_unstd_log1p": 0.078,
+        "se_c1_unstd": 0.0078,
+        "beta_c5_unstd_log1p": 0.0698,
+        "se_c5_unstd": 0.0103,
+        "beta_c5m1_unstd_log1p": 0.0634,
+        "delta_unstd_log1p": -0.0082,
+        "delta_unstd_cluster_ci95": [
+          -0.0161,
+          -0.0028
+        ],
+        "beta_log05_ols_sens": 0.0766,
+        "beta_2020_c1": 0.0787,
+        "beta_2020_c5": 0.0692,
+        "delta_2020_unstd": -0.0087,
+        "delta_2020_unstd_ci95": [
+          -0.0167,
+          0.0001
+        ],
+        "beta_2021_c1": 0.0911,
+        "beta_2021_c5": 0.0778,
+        "delta_2021_unstd": -0.0097,
+        "delta_2021_unstd_ci95": [
+          -0.0197,
+          -0.0027
+        ],
+        "beta_strict_noref_recentered_c5": 0.0583,
+        "beta_strict_withref_recentered_c5": 0.0553
+      },
+      {
+        "feature": "farkli_kurum_sayisi",
+        "label": "Kurumlararası Ağ Genişliği",
+        "beta_c1": -0.072,
+        "se_c1": 0.0206,
+        "beta_c5": -0.0869,
+        "se_c5": 0.0294,
+        "t_c5": -2.95,
+        "p_c5": 0.0031460803189160636,
+        "beta_c5m1": -0.0901,
+        "se_c5m1": 0.032,
+        "delta_beta_std": -0.0148,
+        "delta_beta_cluster_ci95": [
+          -0.0257,
+          0.0092
+        ],
+        "beta_c1_unstd_log1p": -0.063,
+        "se_c1_unstd": 0.018,
+        "beta_c5_unstd_log1p": -0.0767,
+        "se_c5_unstd": 0.026,
+        "beta_c5m1_unstd_log1p": -0.0795,
+        "delta_unstd_log1p": -0.0137,
+        "delta_unstd_cluster_ci95": [
+          -0.0235,
+          0.0079
+        ],
+        "beta_log05_ols_sens": -0.0839,
+        "beta_2020_c1": -0.0192,
+        "beta_2020_c5": -0.0237,
+        "delta_2020_unstd": -0.0042,
+        "delta_2020_unstd_ci95": [
+          -0.0126,
+          0.0051
+        ],
+        "beta_2021_c1": -0.0989,
+        "beta_2021_c5": -0.1169,
+        "delta_2021_unstd": -0.0165,
+        "delta_2021_unstd_ci95": [
+          -0.0277,
+          0.0146
+        ],
+        "beta_strict_noref_recentered_c5": -0.0171,
+        "beta_strict_withref_recentered_c5": -0.0194
+      },
+      {
+        "feature": "orcid_yazar_orani",
+        "label": "ORCID Kayıtlı Yazar Oranı",
+        "beta_c1": 0.0264,
+        "se_c1": 0.0038,
+        "beta_c5": 0.0336,
+        "se_c5": 0.0043,
+        "t_c5": 7.89,
+        "p_c5": 3.1143301709798333e-15,
+        "beta_c5m1": 0.0298,
+        "se_c5m1": 0.0043,
+        "delta_beta_std": 0.0072,
+        "delta_beta_cluster_ci95": [
+          0.0026,
+          0.0115
+        ],
+        "beta_c1_unstd_log1p": 0.0231,
+        "se_c1_unstd": 0.0033,
+        "beta_c5_unstd_log1p": 0.0296,
+        "se_c5_unstd": 0.0038,
+        "beta_c5m1_unstd_log1p": 0.0262,
+        "delta_unstd_log1p": 0.0066,
+        "delta_unstd_cluster_ci95": [
+          0.0025,
+          0.0103
+        ],
+        "beta_log05_ols_sens": 0.0373,
+        "beta_2020_c1": 0.0204,
+        "beta_2020_c5": 0.0281,
+        "delta_2020_unstd": 0.0073,
+        "delta_2020_unstd_ci95": [
+          0.0021,
+          0.013
+        ],
+        "beta_2021_c1": 0.0301,
+        "beta_2021_c5": 0.0366,
+        "delta_2021_unstd": 0.0059,
+        "delta_2021_unstd_ci95": [
+          0.0006,
+          0.0108
+        ],
+        "beta_strict_noref_recentered_c5": 0.0327,
+        "beta_strict_withref_recentered_c5": 0.0295
+      },
+      {
+        "feature": "ozette_acik_kod_veri_vurgusu",
+        "label": "Özette Açık Kod/Veri Vurgusu",
+        "beta_c1": 0.0239,
+        "se_c1": 0.0047,
+        "beta_c5": 0.0292,
+        "se_c5": 0.0053,
+        "t_c5": 5.55,
+        "p_c5": 2.801915374470788e-08,
+        "beta_c5m1": 0.0305,
+        "se_c5m1": 0.0055,
+        "delta_beta_std": 0.0053,
+        "delta_beta_cluster_ci95": [
+          0.0006,
+          0.0093
+        ],
+        "beta_c1_unstd_log1p": 0.0209,
+        "se_c1_unstd": 0.0041,
+        "beta_c5_unstd_log1p": 0.0258,
+        "se_c5_unstd": 0.0046,
+        "beta_c5m1_unstd_log1p": 0.0269,
+        "delta_unstd_log1p": 0.0049,
+        "delta_unstd_cluster_ci95": [
+          0.0007,
+          0.0085
+        ],
+        "beta_log05_ols_sens": 0.028,
+        "beta_2020_c1": 0.0214,
+        "beta_2020_c5": 0.0273,
+        "delta_2020_unstd": 0.0055,
+        "delta_2020_unstd_ci95": [
+          -0.0004,
+          0.0101
+        ],
+        "beta_2021_c1": 0.0283,
+        "beta_2021_c5": 0.0327,
+        "delta_2021_unstd": 0.0041,
+        "delta_2021_unstd_ci95": [
+          -0.0016,
+          0.0099
+        ],
+        "beta_strict_noref_recentered_c5": 0.0329,
+        "beta_strict_withref_recentered_c5": 0.0336
+      },
+      {
+        "feature": "ozet_kelime_sayisi",
+        "label": "Özet Kelime Uzunluğu",
+        "beta_c1": 0.0172,
+        "se_c1": 0.0054,
+        "beta_c5": 0.0207,
+        "se_c5": 0.0053,
+        "t_c5": 3.88,
+        "p_c5": 0.00010342980731016006,
+        "beta_c5m1": 0.0206,
+        "se_c5m1": 0.0056,
+        "delta_beta_std": 0.0035,
+        "delta_beta_cluster_ci95": [
+          -0.0027,
+          0.0101
+        ],
+        "beta_c1_unstd_log1p": 0.0151,
+        "se_c1_unstd": 0.0047,
+        "beta_c5_unstd_log1p": 0.0183,
+        "se_c5_unstd": 0.0047,
+        "beta_c5m1_unstd_log1p": 0.0182,
+        "delta_unstd_log1p": 0.0032,
+        "delta_unstd_cluster_ci95": [
+          -0.0021,
+          0.009
+        ],
+        "beta_log05_ols_sens": 0.0213,
+        "beta_2020_c1": 0.0165,
+        "beta_2020_c5": 0.0203,
+        "delta_2020_unstd": 0.0036,
+        "delta_2020_unstd_ci95": [
+          -0.003,
+          0.0101
+        ],
+        "beta_2021_c1": 0.0199,
+        "beta_2021_c5": 0.023,
+        "delta_2021_unstd": 0.0029,
+        "delta_2021_unstd_ci95": [
+          -0.0062,
+          0.0105
+        ],
+        "beta_strict_noref_recentered_c5": 0.0067,
+        "beta_strict_withref_recentered_c5": 0.0069
+      },
+      {
+        "feature": "ozette_sayisal_bulgu_yogunlugu",
+        "label": "Özette Sayısal Bulgu Yoğunluğu",
+        "beta_c1": 0.0183,
+        "se_c1": 0.0051,
+        "beta_c5": 0.0202,
+        "se_c5": 0.005,
+        "t_c5": 4.02,
+        "p_c5": 5.791529482872924e-05,
+        "beta_c5m1": 0.0212,
+        "se_c5m1": 0.0057,
+        "delta_beta_std": 0.0019,
+        "delta_beta_cluster_ci95": [
+          -0.0042,
+          0.0066
+        ],
+        "beta_c1_unstd_log1p": 0.016,
+        "se_c1_unstd": 0.0045,
+        "beta_c5_unstd_log1p": 0.0178,
+        "se_c5_unstd": 0.0044,
+        "beta_c5m1_unstd_log1p": 0.0187,
+        "delta_unstd_log1p": 0.0018,
+        "delta_unstd_cluster_ci95": [
+          -0.0036,
+          0.006
+        ],
+        "beta_log05_ols_sens": 0.0204,
+        "beta_2020_c1": 0.0266,
+        "beta_2020_c5": 0.0293,
+        "delta_2020_unstd": 0.0026,
+        "delta_2020_unstd_ci95": [
+          -0.0023,
+          0.0072
+        ],
+        "beta_2021_c1": 0.0086,
+        "beta_2021_c5": 0.0093,
+        "delta_2021_unstd": 0.0008,
+        "delta_2021_unstd_ci95": [
+          -0.0061,
+          0.0069
+        ],
+        "beta_strict_noref_recentered_c5": 0.0201,
+        "beta_strict_withref_recentered_c5": 0.0199
+      },
+      {
+        "feature": "baslik_kelime_sayisi",
+        "label": "Başlık Kelime Uzunluğu",
+        "beta_c1": -0.0539,
+        "se_c1": 0.0053,
+        "beta_c5": -0.0793,
+        "se_c5": 0.0058,
+        "t_c5": -13.58,
+        "p_c5": 5.527593449979821e-42,
+        "beta_c5m1": -0.0842,
+        "se_c5m1": 0.006,
+        "delta_beta_std": -0.0254,
+        "delta_beta_cluster_ci95": [
+          -0.03,
+          -0.0209
+        ],
+        "beta_c1_unstd_log1p": -0.0471,
+        "se_c1_unstd": 0.0047,
+        "beta_c5_unstd_log1p": -0.07,
+        "se_c5_unstd": 0.0052,
+        "beta_c5m1_unstd_log1p": -0.0742,
+        "delta_unstd_log1p": -0.0229,
+        "delta_unstd_cluster_ci95": [
+          -0.0269,
+          -0.019
+        ],
+        "beta_log05_ols_sens": -0.077,
+        "beta_2020_c1": -0.0542,
+        "beta_2020_c5": -0.0749,
+        "delta_2020_unstd": -0.0194,
+        "delta_2020_unstd_ci95": [
+          -0.0247,
+          -0.0141
+        ],
+        "beta_2021_c1": -0.0467,
+        "beta_2021_c5": -0.0778,
+        "delta_2021_unstd": -0.0267,
+        "delta_2021_unstd_ci95": [
+          -0.0312,
+          -0.0216
+        ],
+        "beta_strict_noref_recentered_c5": -0.0934,
+        "beta_strict_withref_recentered_c5": -0.1037
+      },
+      {
+        "feature": "fon_hibe_var_mi",
+        "label": "Araştırma Fonu / Hibe Kaydı (0/1)",
+        "beta_c1": -0.0187,
+        "se_c1": 0.0049,
+        "beta_c5": -0.0191,
+        "se_c5": 0.0053,
+        "t_c5": -3.57,
+        "p_c5": 0.0003581591355852509,
+        "beta_c5m1": -0.0189,
+        "se_c5m1": 0.0055,
+        "delta_beta_std": -0.0003,
+        "delta_beta_cluster_ci95": [
+          -0.0046,
+          0.0041
+        ],
+        "beta_c1_unstd_log1p": -0.0164,
+        "se_c1_unstd": 0.0043,
+        "beta_c5_unstd_log1p": -0.0168,
+        "se_c5_unstd": 0.0047,
+        "beta_c5m1_unstd_log1p": -0.0167,
+        "delta_unstd_log1p": -0.0004,
+        "delta_unstd_cluster_ci95": [
+          -0.0042,
+          0.0035
+        ],
+        "beta_log05_ols_sens": -0.0171,
+        "beta_2020_c1": -0.0186,
+        "beta_2020_c5": -0.0186,
+        "delta_2020_unstd": -0.0,
+        "delta_2020_unstd_ci95": [
+          -0.0057,
+          0.0057
+        ],
+        "beta_2021_c1": -0.0149,
+        "beta_2021_c5": -0.0159,
+        "delta_2021_unstd": -0.0011,
+        "delta_2021_unstd_ci95": [
+          -0.0054,
+          0.0036
+        ],
+        "beta_strict_noref_recentered_c5": -0.026,
+        "beta_strict_withref_recentered_c5": -0.0285
+      },
+      {
+        "feature": "yayin_ayi_clean",
+        "label": "Yayın Ayı (1–12, Kontrol)",
+        "beta_c1": -0.3795,
+        "se_c1": 0.0074,
+        "beta_c5": -0.2527,
+        "se_c5": 0.0084,
+        "t_c5": -30.05,
+        "p_c5": 2.1248292348439417e-198,
+        "beta_c5m1": -0.1999,
+        "se_c5m1": 0.0084,
+        "delta_beta_std": 0.1269,
+        "delta_beta_cluster_ci95": [
+          0.1205,
+          0.1333
+        ],
+        "beta_c1_unstd_log1p": -0.3319,
+        "se_c1_unstd": 0.0064,
+        "beta_c5_unstd_log1p": -0.2232,
+        "se_c5_unstd": 0.0074,
+        "beta_c5m1_unstd_log1p": -0.1763,
+        "delta_unstd_log1p": 0.1088,
+        "delta_unstd_cluster_ci95": [
+          0.103,
+          0.1145
+        ],
+        "beta_log05_ols_sens": -0.249,
+        "beta_2020_c1": -0.3664,
+        "beta_2020_c5": -0.2607,
+        "delta_2020_unstd": 0.0976,
+        "delta_2020_unstd_ci95": [
+          0.0891,
+          0.106
+        ],
+        "beta_2021_c1": -0.4104,
+        "beta_2021_c5": -0.2592,
+        "delta_2021_unstd": 0.1197,
+        "delta_2021_unstd_ci95": [
+          0.1135,
+          0.1259
+        ],
+        "beta_strict_noref_recentered_c5": -0.2498,
+        "beta_strict_withref_recentered_c5": -0.2443
+      },
+      {
+        "feature": "is_covid",
+        "label": "COVID-19 Başlık Göstergesi (Kontrol)",
+        "beta_c1": 0.3575,
+        "se_c1": 0.0108,
+        "beta_c5": 0.2072,
+        "se_c5": 0.0091,
+        "t_c5": 22.65,
+        "p_c5": 1.250591986263828e-113,
+        "beta_c5m1": 0.1393,
+        "se_c5m1": 0.0097,
+        "delta_beta_std": -0.1503,
+        "delta_beta_cluster_ci95": [
+          -0.1571,
+          -0.142
+        ],
+        "beta_c1_unstd_log1p": 0.3126,
+        "se_c1_unstd": 0.0095,
+        "beta_c5_unstd_log1p": 0.183,
+        "se_c5_unstd": 0.0081,
+        "beta_c5m1_unstd_log1p": 0.1228,
+        "delta_unstd_log1p": -0.1296,
+        "delta_unstd_cluster_ci95": [
+          -0.1356,
+          -0.1224
+        ],
+        "beta_log05_ols_sens": 0.1997,
+        "beta_2020_c1": 0.4592,
+        "beta_2020_c5": 0.3166,
+        "delta_2020_unstd": -0.1317,
+        "delta_2020_unstd_ci95": [
+          -0.1398,
+          -0.1227
+        ],
+        "beta_2021_c1": 0.2553,
+        "beta_2021_c5": 0.0991,
+        "delta_2021_unstd": -0.1262,
+        "delta_2021_unstd_ci95": [
+          -0.1331,
+          -0.1181
+        ],
+        "beta_strict_noref_recentered_c5": 0.2025,
+        "beta_strict_withref_recentered_c5": 0.2146
+      },
+      {
+        "feature": "has_clinical_design",
+        "label": "Klinik Çalışma Tasarımı Etiketi (Kontrol)",
+        "beta_c1": 0.0052,
+        "se_c1": 0.0056,
+        "beta_c5": 0.0056,
+        "se_c5": 0.0058,
+        "t_c5": 0.97,
+        "p_c5": 0.33027264068798345,
+        "beta_c5m1": 0.0068,
+        "se_c5m1": 0.0058,
+        "delta_beta_std": 0.0004,
+        "delta_beta_cluster_ci95": [
+          -0.0039,
+          0.0048
+        ],
+        "beta_c1_unstd_log1p": 0.0045,
+        "se_c1_unstd": 0.0049,
+        "beta_c5_unstd_log1p": 0.005,
+        "se_c5_unstd": 0.0051,
+        "beta_c5m1_unstd_log1p": 0.006,
+        "delta_unstd_log1p": 0.0004,
+        "delta_unstd_cluster_ci95": [
+          -0.0034,
+          0.0042
+        ],
+        "beta_log05_ols_sens": 0.0058,
+        "beta_2020_c1": 0.0116,
+        "beta_2020_c5": 0.0169,
+        "delta_2020_unstd": 0.005,
+        "delta_2020_unstd_ci95": [
+          -0.0011,
+          0.0106
+        ],
+        "beta_2021_c1": 0.0045,
+        "beta_2021_c5": -0.0002,
+        "delta_2021_unstd": -0.0039,
+        "delta_2021_unstd_ci95": [
+          -0.0088,
+          0.0012
+        ],
+        "beta_strict_noref_recentered_c5": -0.0013,
+        "beta_strict_withref_recentered_c5": -0.0012
+      }
+    ],
+    "n_clipped_c5_minus_c1_zero": 0
+  },
+  "fe_2020_full_window": {
+    "n_unique_works": 37518,
+    "n_cells": 6411,
+    "n_clusters": 6411,
+    "ref_row": {
+      "feature": "referans_sayisi",
+      "label": "Referans Sayısı (OpenAlex Eşleşen)",
+      "beta_c1": 0.199,
+      "se_c1": 0.0182,
+      "beta_c5": 0.2519,
+      "se_c5": 0.0251,
+      "t_c5": 10.03,
+      "p_c5": 1.1170796819477428e-23,
+      "beta_c5m1": 0.2674,
+      "se_c5m1": 0.0267,
+      "delta_beta_std": 0.0528,
+      "delta_beta_cluster_ci95": [
+        0.0408,
+        0.0661
+      ],
+      "beta_c1_unstd_log1p": 0.1848,
+      "se_c1_unstd": 0.0169,
+      "beta_c5_unstd_log1p": 0.2345,
+      "se_c5_unstd": 0.0234,
+      "beta_c5m1_unstd_log1p": 0.2462,
+      "delta_unstd_log1p": 0.0497,
+      "delta_unstd_cluster_ci95": [
+        0.0385,
+        0.0621
+      ],
+      "beta_log05_ols_sens": 0.243
+    }
+  },
+  "fe_2021_open_window": {
+    "n_unique_works": 38103,
+    "n_cells": 6222,
+    "n_clusters": 6222,
+    "ref_row": {
+      "feature": "referans_sayisi",
+      "label": "Referans Sayısı (OpenAlex Eşleşen)",
+      "beta_c1": 0.2264,
+      "se_c1": 0.02,
+      "beta_c5": 0.2751,
+      "se_c5": 0.0273,
+      "t_c5": 10.09,
+      "p_c5": 6.346331547430678e-24,
+      "beta_c5m1": 0.2826,
+      "se_c5m1": 0.0288,
+      "delta_beta_std": 0.0487,
+      "delta_beta_cluster_ci95": [
+        0.0348,
+        0.0647
+      ],
+      "beta_c1_unstd_log1p": 0.1852,
+      "se_c1_unstd": 0.0164,
+      "beta_c5_unstd_log1p": 0.2293,
+      "se_c5_unstd": 0.0227,
+      "beta_c5m1_unstd_log1p": 0.2379,
+      "delta_unstd_log1p": 0.0441,
+      "delta_unstd_cluster_ci95": [
+        0.0321,
+        0.0578
+      ],
+      "beta_log05_ols_sens": 0.2635
+    }
+  },
+  "fe_strict_recentered": {
+    "n_noref": 52451,
+    "n_cells_noref": 9007,
+    "n_withref": 45018,
+    "n_cells_withref": 7731,
+    "ref_noref_c5": 0.2617,
+    "ref_noref_se": 0.031,
+    "ref_withref_c5": 0.2666,
+    "ref_withref_se": 0.032
+  },
+  "fe_3way_jys": {
+    "n_unique_works": 49870,
+    "n_cells": 13042,
+    "n_clusters": 6372,
+    "ref_row": {
+      "feature": "referans_sayisi",
+      "label": "Referans Sayısı (OpenAlex Eşleşen)",
+      "beta_c1": 0.2107,
+      "se_c1": 0.0208,
+      "beta_c5": 0.2547,
+      "se_c5": 0.0282,
+      "t_c5": 9.04,
+      "p_c5": 1.6166360341973878e-19,
+      "beta_c5m1": 0.2631,
+      "se_c5m1": 0.0299,
+      "delta_beta_std": 0.0441,
+      "delta_beta_cluster_ci95": [
+        0.0306,
+        0.0597
+      ],
+      "beta_c1_unstd_log1p": 0.1639,
+      "se_c1_unstd": 0.0161,
+      "beta_c5_unstd_log1p": 0.1996,
+      "se_c5_unstd": 0.0221,
+      "beta_c5m1_unstd_log1p": 0.2074,
+      "delta_unstd_log1p": 0.0357,
+      "delta_unstd_cluster_ci95": [
+        0.025,
+        0.0481
+      ],
+      "beta_log05_ols_sens": 0.2462
+    },
+    "intl_row": {
+      "feature": "farkli_ulke_sayisi",
+      "label": "Uluslararası Ülke Çeşitliliği",
+      "beta_c1": 0.1006,
+      "se_c1": 0.016,
+      "beta_c5": 0.107,
+      "se_c5": 0.0193,
+      "t_c5": 5.54,
+      "p_c5": 2.9434067919132768e-08,
+      "beta_c5m1": 0.1075,
+      "se_c5m1": 0.02,
+      "delta_beta_std": 0.0064,
+      "delta_beta_cluster_ci95": [
+        -0.0107,
+        0.0136
+      ],
+      "beta_c1_unstd_log1p": 0.0783,
+      "se_c1_unstd": 0.0124,
+      "beta_c5_unstd_log1p": 0.0839,
+      "se_c5_unstd": 0.0151,
+      "beta_c5m1_unstd_log1p": 0.0847,
+      "delta_unstd_log1p": 0.0056,
+      "delta_unstd_cluster_ci95": [
+        -0.0079,
+        0.0114
+      ],
+      "beta_log05_ols_sens": 0.1029
+    },
+    "fund_row": {
+      "feature": "fon_hibe_var_mi",
+      "label": "Araştırma Fonu / Hibe Kaydı (0/1)",
+      "beta_c1": -0.0137,
+      "se_c1": 0.0065,
+      "beta_c5": -0.0133,
+      "se_c5": 0.0073,
+      "t_c5": -1.83,
+      "p_c5": 0.06716157478336476,
+      "beta_c5m1": -0.0127,
+      "se_c5m1": 0.0075,
+      "delta_beta_std": 0.0004,
+      "delta_beta_cluster_ci95": [
+        -0.0038,
+        0.0061
+      ],
+      "beta_c1_unstd_log1p": -0.0107,
+      "se_c1_unstd": 0.005,
+      "beta_c5_unstd_log1p": -0.0104,
+      "se_c5_unstd": 0.0057,
+      "beta_c5m1_unstd_log1p": -0.01,
+      "delta_unstd_log1p": 0.0003,
+      "delta_unstd_cluster_ci95": [
+        -0.0031,
+        0.0047
+      ],
+      "beta_log05_ols_sens": -0.0114
+    }
+  },
+  "fulltext_v6": {
+    "rows_crosstab": {
+      "Cached_V20_PDF": {
+        "Dusuk_Atif": 235,
+        "Orta_Atif": 99,
+        "Yuksek_Atif": 77,
+        "All": 411
+      },
+      "EuropePMC_JATS_XML": {
+        "Dusuk_Atif": 117,
+        "Orta_Atif": 1758,
+        "Yuksek_Atif": 1866,
+        "All": 3741
+      },
+      "Gold_OA_FullText_HTML": {
+        "Dusuk_Atif": 17,
+        "Orta_Atif": 31,
+        "Yuksek_Atif": 13,
+        "All": 61
+      },
+      "PyMuPDF_Direct_PDF": {
+        "Dusuk_Atif": 1681,
+        "Orta_Atif": 82,
+        "Yuksek_Atif": 70,
+        "All": 1833
+      },
+      "All": {
+        "Dusuk_Atif": 2050,
+        "Orta_Atif": 1970,
+        "Yuksek_Atif": 2026,
+        "All": 6046
+      }
+    },
+    "unique_crosstab": {
+      "Cached_V20_PDF": {
+        "Dusuk_Atif": 231,
+        "Orta_Atif": 93,
+        "Yuksek_Atif": 73,
+        "All": 397
+      },
+      "EuropePMC_JATS_XML": {
+        "Dusuk_Atif": 116,
+        "Orta_Atif": 1702,
+        "Yuksek_Atif": 1793,
+        "All": 3611
+      },
+      "Gold_OA_FullText_HTML": {
+        "Dusuk_Atif": 17,
+        "Orta_Atif": 31,
+        "Yuksek_Atif": 13,
+        "All": 61
+      },
+      "PyMuPDF_Direct_PDF": {
+        "Dusuk_Atif": 1534,
+        "Orta_Atif": 80,
+        "Yuksek_Atif": 67,
+        "All": 1681
+      },
+      "All": {
+        "Dusuk_Atif": 1898,
+        "Orta_Atif": 1906,
+        "Yuksek_Atif": 1946,
+        "All": 5750
+      }
+    },
+    "n_xml_rows": 3741,
+    "n_xml_unique": 3611,
+    "table8b_unique": [
+      {
+        "label": "Tam Metin Kelime Sayısı",
+        "n_valid_unique_pooled": 5750,
+        "n_valid_unique_xml": 3611,
+        "xml_low_mean": 3422.97,
+        "xml_med_mean": 8199.88,
+        "xml_high_mean": 9374.32,
+        "kw_H_xml_unique": 284.3,
+        "eps2_xml_unique": 0.0788,
+        "pooled_low_mean": 4538.05,
+        "pooled_med_mean": 8055.12,
+        "pooled_high_mean": 9270.29,
+        "rho_5y_pooled_unique": 0.5135,
+        "rho_5y_xml_unique": 0.2115
+      },
+      {
+        "label": "Ek Materyal Paylaşım Skoru",
+        "n_valid_unique_pooled": 5353,
+        "n_valid_unique_xml": 3611,
+        "xml_low_mean": 0.26,
+        "xml_med_mean": 0.58,
+        "xml_high_mean": 0.75,
+        "kw_H_xml_unique": 72.7,
+        "eps2_xml_unique": 0.0201,
+        "pooled_low_mean": 0.04,
+        "pooled_med_mean": 0.57,
+        "pooled_high_mean": 0.73,
+        "rho_5y_pooled_unique": 0.4443,
+        "rho_5y_xml_unique": 0.1578
+      },
+      {
+        "label": "Veri Erişim Beyanı (DAS, 0/1)",
+        "n_valid_unique_pooled": 5353,
+        "n_valid_unique_xml": 3611,
+        "xml_low_mean": 0.16,
+        "xml_med_mean": 0.62,
+        "xml_high_mean": 0.54,
+        "kw_H_xml_unique": 101.0,
+        "eps2_xml_unique": 0.028,
+        "pooled_low_mean": 0.02,
+        "pooled_med_mean": 0.62,
+        "pooled_high_mean": 0.54,
+        "rho_5y_pooled_unique": 0.3968,
+        "rho_5y_xml_unique": -0.0047
+      },
+      {
+        "label": "Tablo Sayısı",
+        "n_valid_unique_pooled": 5750,
+        "n_valid_unique_xml": 3611,
+        "xml_low_mean": 1.53,
+        "xml_med_mean": 4.21,
+        "xml_high_mean": 4.1,
+        "kw_H_xml_unique": 79.0,
+        "eps2_xml_unique": 0.0219,
+        "pooled_low_mean": 1.06,
+        "pooled_med_mean": 4.04,
+        "pooled_high_mean": 4.0,
+        "rho_5y_pooled_unique": 0.3611,
+        "rho_5y_xml_unique": -0.0131
+      },
+      {
+        "label": "Şekil Sayısı",
+        "n_valid_unique_pooled": 5750,
+        "n_valid_unique_xml": 3611,
+        "xml_low_mean": 2.72,
+        "xml_med_mean": 4.21,
+        "xml_high_mean": 5.23,
+        "kw_H_xml_unique": 47.3,
+        "eps2_xml_unique": 0.0131,
+        "pooled_low_mean": 2.92,
+        "pooled_med_mean": 4.09,
+        "pooled_high_mean": 5.08,
+        "rho_5y_pooled_unique": 0.2794,
+        "rho_5y_xml_unique": 0.1932
+      },
+      {
+        "label": "Açık Kod / Yazılım Söz Etme Skoru",
+        "n_valid_unique_pooled": 5353,
+        "n_valid_unique_xml": 3611,
+        "xml_low_mean": 0.04,
+        "xml_med_mean": 0.16,
+        "xml_high_mean": 0.19,
+        "kw_H_xml_unique": 32.8,
+        "eps2_xml_unique": 0.0091,
+        "pooled_low_mean": 0.11,
+        "pooled_med_mean": 0.16,
+        "pooled_high_mean": 0.19,
+        "rho_5y_pooled_unique": 0.1731,
+        "rho_5y_xml_unique": 0.0439
+      },
+      {
+        "label": "1000 Kelimede Metin İçi Atıf Yoğunluğu",
+        "n_valid_unique_pooled": 5353,
+        "n_valid_unique_xml": 3611,
+        "xml_low_mean": 0.38,
+        "xml_med_mean": 1.0,
+        "xml_high_mean": 1.03,
+        "kw_H_xml_unique": 53.3,
+        "eps2_xml_unique": 0.0148,
+        "pooled_low_mean": 2.99,
+        "pooled_med_mean": 1.15,
+        "pooled_high_mean": 1.21,
+        "rho_5y_pooled_unique": -0.2874,
+        "rho_5y_xml_unique": 0.0196
+      },
+      {
+        "label": "Etki Büyüklüğü / Güven Aralığı Sayısı",
+        "n_valid_unique_pooled": 5353,
+        "n_valid_unique_xml": 3611,
+        "xml_low_mean": 2.37,
+        "xml_med_mean": 11.51,
+        "xml_high_mean": 6.74,
+        "kw_H_xml_unique": 65.8,
+        "eps2_xml_unique": 0.0182,
+        "pooled_low_mean": 2.91,
+        "pooled_med_mean": 11.42,
+        "pooled_high_mean": 6.78,
+        "rho_5y_pooled_unique": 0.2595,
+        "rho_5y_xml_unique": -0.0217
+      },
+      {
+        "label": "Hipotez Testi / p-Değeri Bildirim Sayısı",
+        "n_valid_unique_pooled": 5353,
+        "n_valid_unique_xml": 3611,
+        "xml_low_mean": 6.5,
+        "xml_med_mean": 5.18,
+        "xml_high_mean": 3.71,
+        "kw_H_xml_unique": 76.6,
+        "eps2_xml_unique": 0.0212,
+        "pooled_low_mean": 1.87,
+        "pooled_med_mean": 5.54,
+        "pooled_high_mean": 3.8,
+        "rho_5y_pooled_unique": 0.1637,
+        "rho_5y_xml_unique": -0.0587
+      }
+    ]
+  },
+  "delayed_surge_v6": {
+    "n_cases_total": 225,
+    "n_matched_sets": 84,
+    "n_unmatched_cases": 141,
+    "n_unique_controls": 249,
+    "controls_per_case_dist": {
+      "0": 141,
+      "1": 1,
+      "2": 1,
+      "3": 82
+    },
+    "matched_case_ref_mean": 42.61,
+    "matched_set_ctrl_ref_mean": 17.14,
+    "ref_paired_diff_mean": 25.46,
+    "ref_paired_diff_ci95": [
+      18.99,
+      32.43
+    ],
+    "ref_wilcoxon_p": 3.366942083955628e-11,
+    "matched_case_j_mean": 123.88,
+    "matched_set_ctrl_j_mean": 78.94,
+    "j_paired_diff_mean": 44.95,
+    "j_paired_diff_ci95": [
+      34.57,
+      56.34
+    ],
+    "j_wilcoxon_p": 1.1953785117127583e-10,
+    "unmatched_profile": {
+      "n": 141,
+      "ref_mean": 52.38,
+      "j_mean": 104.01,
+      "c1_mean": 1.72,
+      "matched_c1_mean": 0.7
+    },
+    "order_sensitivity_5seeds": [
+      {
+        "seed": 11,
+        "n_matched": 84,
+        "ref_diff": 24.38,
+        "j_diff": 46.68
+      },
+      {
+        "seed": 22,
+        "n_matched": 84,
+        "ref_diff": 25.08,
+        "j_diff": 37.36
+      },
+      {
+        "seed": 33,
+        "n_matched": 84,
+        "ref_diff": 26.8,
+        "j_diff": 35.38
+      },
+      {
+        "seed": 44,
+        "n_matched": 84,
+        "ref_diff": 22.61,
+        "j_diff": 45.4
+      },
+      {
+        "seed": 55,
+        "n_matched": 84,
+        "ref_diff": 25.26,
+        "j_diff": 41.69
+      }
+    ]
+  },
+  "table5_v6": {
+    "n_test": 1500,
+    "top1_pos_count": 490,
+    "top1_prevalence": 0.3267,
+    "rows": [
+      {
+        "model": "M0_Alan_Yil_Ay",
+        "roc_auc_top1": 0.8009,
+        "roc_auc_top1_ci95": [
+          0.7777,
+          0.8244
+        ],
+        "ap_top1_tie_inv": 0.6401,
+        "brier_top1": 0.1676,
+        "cal_slope": 1.06,
+        "cal_intercept": 0.142,
+        "r2_logc5": 0.4647,
+        "mae_logc5": 1.3474,
+        "r2_c5_minus_c1": 0.4348,
+        "mae_raw_c5": 134.5
+      },
+      {
+        "model": "M1_Prestij",
+        "roc_auc_top1": 0.8726,
+        "roc_auc_top1_ci95": [
+          0.8535,
+          0.889
+        ],
+        "ap_top1_tie_inv": 0.7527,
+        "brier_top1": 0.1378,
+        "cal_slope": 1.092,
+        "cal_intercept": 0.163,
+        "r2_logc5": 0.6311,
+        "mae_logc5": 1.0908,
+        "r2_c5_minus_c1": 0.6037,
+        "mae_raw_c5": 127.8
+      },
+      {
+        "model": "M2_Bibliyografik_Ag",
+        "roc_auc_top1": 0.9004,
+        "roc_auc_top1_ci95": [
+          0.886,
+          0.9138
+        ],
+        "ap_top1_tie_inv": 0.81,
+        "brier_top1": 0.1201,
+        "cal_slope": 1.113,
+        "cal_intercept": 0.203,
+        "r2_logc5": 0.7071,
+        "mae_logc5": 0.9329,
+        "r2_c5_minus_c1": 0.6827,
+        "mae_raw_c5": 125.7
+      },
+      {
+        "model": "M3_Birlesik_GeriyeDonuk",
+        "roc_auc_top1": 0.9179,
+        "roc_auc_top1_ci95": [
+          0.904,
+          0.93
+        ],
+        "ap_top1_tie_inv": 0.8366,
+        "brier_top1": 0.1097,
+        "cal_slope": 1.118,
+        "cal_intercept": 0.199,
+        "r2_logc5": 0.7533,
+        "mae_logc5": 0.8453,
+        "r2_c5_minus_c1": 0.7314,
+        "mae_raw_c5": 120.9
+      },
+      {
+        "model": "M5_Temel_Arti_C1",
+        "roc_auc_top1": 0.9848,
+        "roc_auc_top1_ci95": [
+          0.9795,
+          0.9896
+        ],
+        "ap_top1_tie_inv": 0.9688,
+        "brier_top1": 0.0402,
+        "cal_slope": 1.095,
+        "cal_intercept": 0.165,
+        "r2_logc5": 0.8862,
+        "mae_logc5": 0.6059,
+        "r2_c5_minus_c1": 0.8351,
+        "mae_raw_c5": 80.1
+      },
+      {
+        "model": "M6_Dinamik_M3_Arti_C1",
+        "roc_auc_top1": 0.9857,
+        "roc_auc_top1_ci95": [
+          0.9806,
+          0.9901
+        ],
+        "ap_top1_tie_inv": 0.9723,
+        "brier_top1": 0.0402,
+        "cal_slope": 1.041,
+        "cal_intercept": 0.141,
+        "r2_logc5": 0.917,
+        "mae_logc5": 0.5092,
+        "r2_c5_minus_c1": 0.8798,
+        "mae_raw_c5": 72.3
+      }
+    ]
+  },
+  "table6_v6_confusion_matrices": {
+    "M3_Birlesik_GeriyeDonuk": {
+      "accuracy": 0.8127,
+      "macro_f1": 0.8095,
+      "matrix": [
+        [
+          491,
+          6,
+          3
+        ],
+        [
+          42,
+          339,
+          119
+        ],
+        [
+          5,
+          106,
+          389
+        ]
+      ],
+      "per_class": [
+        {
+          "class": "Dusuk_Atif",
+          "tp": 491,
+          "pred_total": 538,
+          "true_total": 500,
+          "precision": 0.9126,
+          "recall": 0.982,
+          "f1": 0.9461
+        },
+        {
+          "class": "Orta_Atif",
+          "tp": 339,
+          "pred_total": 451,
+          "true_total": 500,
+          "precision": 0.7517,
+          "recall": 0.678,
+          "f1": 0.7129
+        },
+        {
+          "class": "Yuksek_Atif",
+          "tp": 389,
+          "pred_total": 511,
+          "true_total": 500,
+          "precision": 0.7613,
+          "recall": 0.778,
+          "f1": 0.7695
+        }
+      ]
+    },
+    "M6_Dinamik_M3_Arti_C1": {
+      "accuracy": 0.9407,
+      "macro_f1": 0.94,
+      "matrix": [
+        [
+          498,
+          2,
+          0
+        ],
+        [
+          23,
+          434,
+          43
+        ],
+        [
+          0,
+          21,
+          479
+        ]
+      ],
+      "per_class": [
+        {
+          "class": "Dusuk_Atif",
+          "tp": 498,
+          "pred_total": 521,
+          "true_total": 500,
+          "precision": 0.9559,
+          "recall": 0.996,
+          "f1": 0.9755
+        },
+        {
+          "class": "Orta_Atif",
+          "tp": 434,
+          "pred_total": 457,
+          "true_total": 500,
+          "precision": 0.9497,
+          "recall": 0.868,
+          "f1": 0.907
+        },
+        {
+          "class": "Yuksek_Atif",
+          "tp": 479,
+          "pred_total": 522,
+          "true_total": 500,
+          "precision": 0.9176,
+          "recall": 0.958,
+          "f1": 0.9374
+        }
+      ]
+    }
+  },
+  "table9_v6": {
+    "prob_accounting": {
+      "rows_total": 24000,
+      "unique_total": 21431,
+      "overlap_with_main_87k": 226,
+      "overlap_2022_with_main": 0,
+      "missing_journal": 1405,
+      "singleton_jy": 11533,
+      "fe_n_unique": 8493,
+      "fe_cells": 2517,
+      "fe_clusters": 2099,
+      "hist_zero_denom_journals": 20
+    },
+    "prob_fe_clustered": [
+      {
+        "feature": "referans_sayisi",
+        "beta_c1": 0.2295,
+        "beta_c5": 0.2521,
+        "se_cluster_c5": 0.0181,
+        "t_cluster": 13.89
+      },
+      {
+        "feature": "farkli_ulke_sayisi",
+        "beta_c1": 0.0965,
+        "beta_c5": 0.0835,
+        "se_cluster_c5": 0.0202,
+        "t_cluster": 4.13
+      },
+      {
+        "feature": "yazar_sayisi",
+        "beta_c1": 0.0422,
+        "beta_c5": 0.0698,
+        "se_cluster_c5": 0.0251,
+        "t_cluster": 2.78
+      },
+      {
+        "feature": "farkli_kurum_sayisi",
+        "beta_c1": 0.0086,
+        "beta_c5": 0.0281,
+        "se_cluster_c5": 0.0226,
+        "t_cluster": 1.24
+      },
+      {
+        "feature": "acik_erisim_mi",
+        "beta_c1": 0.0354,
+        "beta_c5": 0.0278,
+        "se_cluster_c5": 0.0177,
+        "t_cluster": 1.57
+      }
+    ],
+    "split_sizes": {
+      "train_2020_unique": 2505,
+      "test_2021_unique": 1574,
+      "test_2022_unique": 1253,
+      "unmatched_2022_excluded": 5841,
+      "top10_pos_2021": 244,
+      "top10_prev_2021": 0.155,
+      "top10_pos_2022": 170,
+      "top10_prev_2022": 0.1357,
+      "top1_pos_2021": 12,
+      "top1_pos_2022": 21,
+      "missing_pct_norm_20_21_22": [
+        0,
+        0,
+        0
+      ]
+    },
+    "m3_minus_m2_top10_auc": {
+      "diff_2021": 0.007,
+      "ci95_2021": [
+        -0.0039,
+        0.0174
+      ],
+      "diff_2022": 0.0191,
+      "ci95_2022": [
+        0.008,
+        0.0307
+      ]
+    },
+    "rows": [
+      {
+        "model": "M0_Alan_Bazal",
+        "p21_top10_auc": 0.5066,
+        "p21_top10_ap_tie_inv": 0.1607,
+        "p21_top1_auc": 0.6427,
+        "p21_r2_obs2026": 0.0474,
+        "e22_top10_auc": 0.4995,
+        "e22_top10_ap_tie_inv": 0.1418,
+        "e22_top1_auc": 0.503,
+        "e22_r2_obs2026_incomplete_c5": 0.1323
+      },
+      {
+        "model": "M1_Tarihsel_2019_Dergi",
+        "p21_top10_auc": 0.7687,
+        "p21_top10_ap_tie_inv": 0.3444,
+        "p21_top1_auc": 0.8115,
+        "p21_r2_obs2026": 0.4923,
+        "e22_top10_auc": 0.7895,
+        "e22_top10_ap_tie_inv": 0.335,
+        "e22_top1_auc": 0.7194,
+        "e22_r2_obs2026_incomplete_c5": 0.5735
+      },
+      {
+        "model": "M2_Bibliyografik_Ag",
+        "p21_top10_auc": 0.8218,
+        "p21_top10_ap_tie_inv": 0.4286,
+        "p21_top1_auc": 0.8417,
+        "p21_r2_obs2026": 0.6263,
+        "e22_top10_auc": 0.8135,
+        "e22_top10_ap_tie_inv": 0.4121,
+        "e22_top1_auc": 0.8432,
+        "e22_r2_obs2026_incomplete_c5": 0.6535
+      },
+      {
+        "model": "M3_Birlesik_Tarihsel_2019",
+        "p21_top10_auc": 0.8288,
+        "p21_top10_ap_tie_inv": 0.4551,
+        "p21_top1_auc": 0.8558,
+        "p21_r2_obs2026": 0.664,
+        "e22_top10_auc": 0.8326,
+        "e22_top10_ap_tie_inv": 0.4438,
+        "e22_top1_auc": 0.8476,
+        "e22_r2_obs2026_incomplete_c5": 0.6894
+      },
+      {
+        "model": "M6_Dinamik_Arti_C1",
+        "p21_top10_auc": 0.9575,
+        "p21_top10_ap_tie_inv": 0.8361,
+        "p21_top1_auc": 0.9792,
+        "p21_r2_obs2026": 0.8627,
+        "e22_top10_auc": 0.9583,
+        "e22_top10_ap_tie_inv": 0.8275,
+        "e22_top1_auc": 0.9635,
+        "e22_r2_obs2026_incomplete_c5": 0.8783
+      }
+    ]
+  }
+}
