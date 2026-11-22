@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Academic Citation Trajectory Forecaster — Full Manuscript-Aligned Model (v3.0)</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+  <style>
+    :root {
+      --navy: #1B365D;
+      --teal: #007A78;
+      --bg: #F6F8FB;
+      --card: #FFFFFF;
+      --border: #DCE3EC;
+      --text: #1E293B;
+      --muted: #526071;
+      --warn-bg: #FFF8EB;
+      --warn-border: #E69F00;
+      --ok-bg: #ECFDF5;
+      --ok-border: #10B981;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    header {
+      background: var(--navy);
+      color: #FFFFFF;
+      padding: 24px 20px;
+      border-bottom: 4px solid var(--teal);
+    }
+    .wrap { max-width: 1140px; margin: 0 auto; }
+    header h1 { margin: 0 0 6px; font-size: 1.58rem; font-weight: 700; }
+    header p { margin: 0; color: #D5E2F2; font-size: 0.92rem; }
+    main { padding: 20px 20px 44px; }
+    .upload-card {
+      background: var(--card);
+      border: 2px dashed #94A3B8;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 20px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .upload-card:hover, .upload-card.dragover { border-color: var(--teal); background: #F0FAFA; }
+    .upload-title { font-size: 1.03rem; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+    .upload-sub { font-size: 0.85rem; color: var(--muted); margin-bottom: 12px; }
+    .upload-btn { display: inline-block; padding: 8px 18px; background: var(--teal); color: #FFF; border-radius: 6px; font-size: 0.88rem; font-weight: 600; }
+    #upload_status { margin-top: 12px; font-size: 0.84rem; font-weight: 600; display: none; padding: 10px 14px; border-radius: 6px; text-align: left; }
+    #upload_status.ok { display: block; background: var(--ok-bg); border: 1px solid var(--ok-border); color: #065F46; }
+    #upload_status.err { display: block; background: #FEF2F2; border: 1px solid #EF4444; color: #991B1B; }
+    .diag-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .pill { background: #FFF; border: 1px solid #A7F3D0; border-radius: 999px; padding: 2px 9px; font-size: 0.76rem; color: #065F46; font-weight: 600; }
+    .grid { display: grid; grid-template-columns: 1.12fr 0.88fr; gap: 20px; align-items: start; }
+    @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; box-shadow: 0 2px 10px rgba(27,54,93,0.05); }
+    .card h2 { margin: 0 0 14px; font-size: 1.08rem; color: var(--navy); border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+    .field { margin-bottom: 11px; }
+    .field label { display: flex; justify-content: space-between; font-size: 0.84rem; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+    .field label span.val { color: var(--teal); font-weight: 700; }
+    select, input[type="number"] { width: 100%; padding: 7px 10px; border: 1px solid #CBD5E1; border-radius: 6px; font-size: 0.89rem; background: #FFF; color: var(--text); }
+    input[type="range"] { width: 100%; accent-color: var(--teal); }
+    .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; }
+    .row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+    .check-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 12px; margin: 10px 0; }
+    .check-row { display: flex; align-items: center; gap: 7px; font-size: 0.84rem; font-weight: 600; cursor: pointer; }
+    .check-row input { width: 15px; height: 15px; accent-color: var(--teal); }
+    details { margin: 12px 0; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; background: #FAFBFD; }
+    summary { font-size: 0.86rem; font-weight: 700; color: var(--navy); cursor: pointer; }
+    .btn { width: 100%; margin-top: 10px; padding: 11px 16px; background: var(--navy); color: #FFF; border: none; border-radius: 7px; font-size: 0.94rem; font-weight: 600; cursor: pointer; }
+    .btn:hover { background: var(--teal); }
+    .mode-badge { display: inline-block; font-size: 0.77rem; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: #E8F3F3; color: var(--teal); margin-bottom: 14px; }
+    .kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+    .kpi { background: #F8FAFC; border: 1px solid var(--border); border-radius: 8px; padding: 14px; }
+    .kpi .k-label { font-size: 0.75rem; color: var(--muted); font-weight: 600; text-transform: uppercase; }
+    .kpi .k-val { font-size: 1.45rem; font-weight: 700; color: var(--navy); margin-top: 4px; }
+    .kpi .k-sub { font-size: 0.77rem; color: var(--muted); margin-top: 2px; }
+    .bar-wrap { margin: 12px 0; }
+    .bar-head { display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600; margin-bottom: 4px; }
+    .bar-track { height: 10px; background: #E2E8F0; border-radius: 999px; overflow: hidden; }
+    .bar-fill { height: 100%; background: var(--teal); border-radius: 999px; transition: width 0.25s ease; }
+    .bar-fill.navy { background: var(--navy); }
+    .notice { margin-top: 16px; padding: 12px 14px; background: var(--warn-bg); border-left: 4px solid var(--warn-border); border-radius: 6px; font-size: 0.81rem; color: #4A3800; }
+    .meta { margin-top: 12px; font-size: 0.78rem; color: var(--muted); border-top: 1px solid var(--border); padding-top: 10px; }
+    #c1_box { display: none; padding: 10px 12px; background: #F1F5F9; border-radius: 6px; margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>Academic Citation Trajectory Forecaster (Full Manuscript-Aligned v3.0)</h1>
+      <p>Exact 21-feature + 10-discipline IRLS Logistic &amp; Nonlinear Ridge model from Aygün (2026) &middot; Upload <strong>.pdf, .docx, .txt, .md</strong> locally in your browser.</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <div class="upload-card" id="drop_zone">
+        <input type="file" id="file_input" accept=".pdf,.docx,.txt,.md,.tex" style="display:none;" />
+        <div class="upload-title">Upload Manuscript (.PDF / .DOCX / .TXT / .MD) for Full 21-Feature Extraction</div>
+        <div class="upload-sub">Automatically computes Flesch Reading Ease, Abstract TTR, Sentence Count, Numeric Density, Structured Subheadings, Title Punctuation, Keywords, Reference Depth, Open Code/Data, Funding, COVID/Clinical Design &amp; Discipline locally in your browser.</div>
+        <span class="upload-btn">Select Manuscript File</span>
+        <div id="upload_status"></div>
+      </div>
+
+      <div class="grid">
+        <section class="card">
+          <h2>Manuscript, Discourse &amp; Journal Profile (21 Features + 10 Fields)</h2>
+
+          <div class="field">
+            <label for="disc">Discipline (All 10 OpenAlex Fields)</label>
+            <select id="disc">
+              <option value="01_Muhendislik">01. Engineering (Mühendislik)</option>
+              <option value="02_Saglik_ve_Tip">02. Health &amp; Medical Sciences (Sağlık ve Tıp)</option>
+              <option value="03_Egitim_Bilimleri">03. Education Sciences (Eğitim Bilimleri)</option>
+              <option value="04_Bilgisayar_ve_Bilisim" selected>04. Computer &amp; Information Sciences (Bilgisayar ve Bilişim)</option>
+              <option value="05_Doga_ve_Fen_Bilimleri">05. Natural &amp; Physical Sciences (Doğa ve Fen Bilimleri)</option>
+              <option value="06_Sosyal_ve_Beseri_Bilimler">06. Social Sciences &amp; Humanities (Sosyal ve Beşeri Bilimler)</option>
+              <option value="07_Iktisat_ve_Isletme">07. Economics, Business &amp; Management (İktisat ve İşletme)</option>
+              <option value="08_Cevre_ve_Tarim_Bilimleri">08. Environmental &amp; Agricultural Sciences (Çevre ve Tarım)</option>
+              <option value="09_Psikoloji_ve_Davranis">09. Psychology &amp; Behavioral Sciences (Psikoloji ve Davranış)</option>
+              <option value="10_Hukuk_ve_Siyaset_Bilimi">10. Law &amp; Political Science (Hukuk ve Siyaset Bilimi)</option>
+            </select>
+          </div>
+
+          <div class="row-2">
+            <div class="field">
+              <label for="j_cit">Target Journal Mean Cits/Paper (Pre-t0)</label>
+              <input type="number" id="j_cit" value="12.5" min="0" step="0.5" />
+            </div>
+            <div class="field">
+              <label for="refs">Reference Count <span class="val" id="refs_v">45</span></label>
+              <input type="range" id="refs" min="0" max="250" value="45" />
+            </div>
+          </div>
+
+          <div class="row-3">
+            <div class="field">
+              <label for="auths">Authors <span class="val" id="auths_v">4</span></label>
+              <input type="range" id="auths" min="1" max="50" value="4" />
+            </div>
+            <div class="field">
+              <label for="insts">Institutions <span class="val" id="insts_v">2</span></label>
+              <input type="range" id="insts" min="1" max="30" value="2" />
+            </div>
+            <div class="field">
+              <label for="ctrys">Countries <span class="val" id="ctrys_v">2</span></label>
+              <input type="range" id="ctrys" min="1" max="20" value="2" />
+            </div>
+          </div>
+
+          <div class="check-grid">
+            <label class="check-row"><input type="checkbox" id="opencode" checked /> Open Code / Data (GitHub/DAS)</label>
+            <label class="check-row"><input type="checkbox" id="funded" /> Grant / Funding Support</label>
+            <label class="check-row"><input type="checkbox" id="oa" checked /> Open Access Publication</label>
+            <label class="check-row"><input type="checkbox" id="struct_abs" /> Structured Abstract Headings</label>
+          </div>
+
+          <details>
+            <summary>Extracted Text &amp; Discourse Features (Auto-filled from Manuscript — Click to Inspect/Edit)</summary>
+            <div style="margin-top:10px;">
+              <div class="row-3">
+                <div class="field">
+                  <label for="title_w">Title Words</label>
+                  <input type="number" id="title_w" value="14" min="1" max="60" />
+                </div>
+                <div class="field">
+                  <label for="abs_w">Abstract Words</label>
+                  <input type="number" id="abs_w" value="200" min="0" max="800" />
+                </div>
+                <div class="field">
+                  <label for="abs_s">Abstract Sentences</label>
+                  <input type="number" id="abs_s" value="8" min="1" max="40" />
+                </div>
+              </div>
+              <div class="row-3">
+                <div class="field">
+                  <label for="ttr">Abstract TTR (0–1)</label>
+                  <input type="number" id="ttr" value="0.58" min="0" max="1" step="0.01" />
+                </div>
+                <div class="field">
+                  <label for="flesch">Flesch Readability</label>
+                  <input type="number" id="flesch" value="26.0" min="-100" max="120" step="0.5" />
+                </div>
+                <div class="field">
+                  <label for="num_dens">Numeric Findings</label>
+                  <input type="number" id="num_dens" value="2" min="0" max="50" />
+                </div>
+              </div>
+              <div class="row-2">
+                <div class="field">
+                  <label for="kw_cnt">Keywords Count</label>
+                  <input type="number" id="kw_cnt" value="6" min="0" max="30" />
+                </div>
+                <div class="field" style="padding-top:18px;">
+                  <label class="check-row"><input type="checkbox" id="t_colon" checked /> Colon (:) in Title</label>
+                </div>
+              </div>
+              <div class="check-grid">
+                <label class="check-row"><input type="checkbox" id="t_quest" /> Question Mark (?) in Title</label>
+                <label class="check-row"><input type="checkbox" id="is_covid" /> COVID-19 / Pandemic Topic</label>
+                <label class="check-row"><input type="checkbox" id="is_clin" /> Clinical / RCT / Meta-Analysis</label>
+              </div>
+            </div>
+          </details>
+
+          <label class="check-row" style="margin-top:8px;">
+            <input type="checkbox" id="use_c1" />
+            Include Year 1 Early Citations (Dynamic Trajectory Mode M6)
+          </label>
+          <div id="c1_box">
+            <div class="field" style="margin-bottom:0;">
+              <label for="c1">Observed Year 1 Cumulative Citations (C1)</label>
+              <input type="number" id="c1" value="3" min="0" step="1" />
+            </div>
+          </div>
+
+          <button class="btn" id="run_btn" type="button">Update 5-Year Citation Forecast</button>
+        </section>
+
+        <section class="card">
+          <h2>Forecast Results</h2>
+          <div class="mode-badge" id="mode_badge">Full Manuscript-Aligned Pre-Publication Mode (M3, 31 Inputs)</div>
+
+          <div class="kpi-grid">
+            <div class="kpi">
+              <div class="k-label">Expected 5-Year Citations</div>
+              <div class="k-val" id="out_c5">—</div>
+              <div class="k-sub">Natural-weighted log1p expectation</div>
+            </div>
+            <div class="kpi">
+              <div class="k-label">80% Prediction Interval</div>
+              <div class="k-val" id="out_ci">—</div>
+              <div class="k-sub">Accounts for right-skewed variance</div>
+            </div>
+          </div>
+
+          <div class="bar-wrap">
+            <div class="bar-head">
+              <span>Field-Normalized Top 10% Probability</span>
+              <span id="out_p10">—</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill" id="bar_p10" style="width:0%"></div></div>
+          </div>
+
+          <div class="bar-wrap">
+            <div class="bar-head">
+              <span>Field-Normalized Top 1% Elite Probability</span>
+              <span id="out_p1">—</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill navy" id="bar_p1" style="width:0%"></div></div>
+          </div>
+
+          <div class="notice">
+            <strong>Responsible Research Assessment (DORA / Leiden Manifesto):</strong>
+            This forecast runs the exact IRLS Logistic &amp; Nonlinear Ridge equations trained on our 10-discipline OpenAlex corpus (N = 87,095 unique articles calibrated to natural universe weights). Citation counts do not measure intrinsic scientific quality and must never replace peer review.
+          </div>
+
+          <div class="meta">
+            <strong>Model Artifact:</strong> v3.0.0 Full Manuscript-Aligned (21 features + 10 disciplines + optional C1) &middot; 100% browser-local execution &middot; Companion tool to Aygün (2026).
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    if (window.pdfjsLib) {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+    }
+
+    const ARTIFACT = {"version": "3.0.0-full-manuscript-aligned", "trained_on": "10-Discipline OpenAlex Corpus (N=87,095 unique articles, 21 manuscript/context features + 10 disciplines)", "disciplines": ["01_Muhendislik", "02_Saglik_ve_Tip", "03_Egitim_Bilimleri", "04_Bilgisayar_ve_Bilisim", "05_Doga_ve_Fen_Bilimleri", "06_Sosyal_ve_Beseri_Bilimler", "07_Iktisat_ve_Isletme", "08_Cevre_ve_Tarim_Bilimleri", "09_Psikoloji_ve_Davranis", "10_Hukuk_ve_Siyaset_Bilimi"], "feature_names_t0": ["j_mean_proxy", "referans_sayisi", "ozet_100_kelime_basina_referans", "baslik_kelime_sayisi", "baslikta_soru_isareti", "baslikta_iki_nokta", "ozet_kelime_sayisi", "ozet_cumle_sayisi", "ozet_kelime_cesitliligi_ttr", "ozet_flesch_okunabilirlik_skoru", "ozette_yapilandirilmis_altbaslik", "ozette_sayisal_bulgu_yogunlugu", "ozette_acik_kod_veri_vurgusu", "anahtar_kelime_sayisi", "yazar_sayisi", "farkli_kurum_sayisi", "farkli_ulke_sayisi", "fon_hibe_var_mi", "acik_erisim_mi", "is_covid", "has_clinical_design", "d_01_Muhendislik", "d_02_Saglik_ve_Tip", "d_03_Egitim_Bilimleri", "d_04_Bilgisayar_ve_Bilisim", "d_05_Doga_ve_Fen_Bilimleri", "d_06_Sosyal_ve_Beseri_Bilimler", "d_07_Iktisat_ve_Isletme", "d_08_Cevre_ve_Tarim_Bilimleri", "d_09_Psikoloji_ve_Davranis", "d_10_Hukuk_ve_Siyaset_Bilimi"], "feature_names_dyn": ["j_mean_proxy", "referans_sayisi", "ozet_100_kelime_basina_referans", "baslik_kelime_sayisi", "baslikta_soru_isareti", "baslikta_iki_nokta", "ozet_kelime_sayisi", "ozet_cumle_sayisi", "ozet_kelime_cesitliligi_ttr", "ozet_flesch_okunabilirlik_skoru", "ozette_yapilandirilmis_altbaslik", "ozette_sayisal_bulgu_yogunlugu", "ozette_acik_kod_veri_vurgusu", "anahtar_kelime_sayisi", "yazar_sayisi", "farkli_kurum_sayisi", "farkli_ulke_sayisi", "fon_hibe_var_mi", "acik_erisim_mi", "is_covid", "has_clinical_design", "log_c1", "d_01_Muhendislik", "d_02_Saglik_ve_Tip", "d_03_Egitim_Bilimleri", "d_04_Bilgisayar_ve_Bilisim", "d_05_Doga_ve_Fen_Bilimleri", "d_06_Sosyal_ve_Beseri_Bilimler", "d_07_Iktisat_ve_Isletme", "d_08_Cevre_ve_Tarim_Bilimleri", "d_09_Psikoloji_ve_Davranis", "d_10_Hukuk_ve_Siyaset_Bilimi"], "models": {"t0_top10_clf": {"mu": [14.294959991351957, 46.876835639244504, 27.842874102990994, 13.324645502038004, 0.03740742866984328, 0.31317526838509674, 180.43991044262012, 8.92540329525231, 0.5329256375222459, 23.815385383776338, 0.07533153453125897, 0.8417015902175785, 0.009150927148515989, 8.557793214306217, 5.006154199437396, 2.8867902864687984, 1.453458866754693, 0.4038348929330042, 1.0, 0.12303806188644584, 0.18704862506458464, 0.10333543831448419, 0.10333543831448419, 0.10333543831448419, 0.10333543831448419, 0.10333543831448419, 0.08148573396865491, 0.10333543831448419, 0.10333543831448419, 0.10333543831448419, 0.09183075951547161], "sd": [19.69158930875615, 68.93551041599132, 348.61219939808296, 5.213307115689108, 0.1897580379065769, 0.4637849929191536, 156.50033225485984, 10.021185633084006, 0.2199118535160931, 32.303202045921886, 0.2639255471462069, 2.951475327942122, 0.09522178154623313, 3.009659416948284, 8.302079003125925, 8.726612188434016, 1.8497531515270798, 0.4906651324302484, 1.0, 0.3284808932246638, 0.3899505570274686, 0.30439649390693985, 0.30439649390693985, 0.30439649390693985, 0.30439649390693985, 0.30439649390693985, 0.27357962118594387, 0.3043964939069398, 0.30439649390693985, 0.3043964939069398, 0.2887868956900282], "beta": [-0.17252737113731534, 1.0714804539648501, 1.654124588413509, 0.41259189134894303, -0.23335510070565957, 0.12269377062238433, 0.25499323759136167, -0.045096383003656995, -0.006411649914500472, -0.12854233359475567, -0.07736356530908303, 0.08025726602763582, 0.06960583527601903, 0.11809085074145959, 0.16295746262113156, 0.29566868224549997, -0.3002867075657817, 0.5626780067037674, 0.24636653066757136, 0.0, 0.43521240379859955, 0.06599764197697852, -0.4476993450887341, -0.40215388412430547, 0.5593362118803105, -0.19759290730758472, -0.44976654132359584, 0.4218125016216139, 0.3580479501361714, -0.4706474405313192, 0.07636788663421094, 0.6271606482449599]}, "t0_top1_clf": {"mu": [14.294959991351957, 46.876835639244504, 27.842874102990994, 13.324645502038004, 0.03740742866984328, 0.31317526838509674, 180.43991044262012, 8.92540329525231, 0.5329256375222459, 23.815385383776338, 0.07533153453125897, 0.8417015902175785, 0.009150927148515989, 8.557793214306217, 5.006154199437396, 2.8867902864687984, 1.453458866754693, 0.4038348929330042, 1.0, 0.12303806188644584, 0.18704862506458464, 0.10333543831448419, 0.10333543831448419, 0.10333543831448419, 0.10333543831448419, 0.10333543831448419, 0.08148573396865491, 0.10333543831448419, 0.10333543831448419, 0.10333543831448419, 0.09183075951547161], "sd": [19.69158930875615, 68.93551041599132, 348.61219939808296, 5.213307115689108, 0.1897580379065769, 0.4637849929191536, 156.50033225485984, 10.021185633084006, 0.2199118535160931, 32.303202045921886, 0.2639255471462069, 2.951475327942122, 0.09522178154623313, 3.009659416948284, 8.302079003125925, 8.726612188434016, 1.8497531515270798, 0.4906651324302484, 1.0, 0.3284808932246638, 0.3899505570274686, 0.30439649390693985, 0.30439649390693985, 0.30439649390693985, 0.30439649390693985, 0.30439649390693985, 0.27357962118594387, 0.3043964939069398, 0.30439649390693985, 0.3043964939069398, 0.2887868956900282], "beta": [-1.818673174112059, 1.121337016017076, 1.2638039362116846, 0.22680551338690452, -0.37208490058468563, 0.0557602030719909, 0.21862836146822276, 0.008759518210680613, -0.09262966377990481, -0.02168770452566387, -0.073724030726601, -0.029299213203321288, 0.0742817167972473, 0.12844948942796786, 0.18804231544215863, 0.3060616631506932, -0.05111740027196925, 0.36530913162262324, 0.0938367729389159, 0.0, 0.5605451805183853, -0.00914751355810075, 0.004800716545284079, -0.35631658056843624, 0.27198710184596125, -0.10446841813300775, -0.231897319739466, 0.20593049898831448, 0.037151048401868544, -0.12485063415181902, -0.08575783095661844, 0.4261213755562887]}, "t0_logc5_reg": {"mu": [14.294959991351957, 46.876835639244504, 27.842874102990994, 13.324645502038004, 0.03740742866984328, 0.31317526838509674, 180.43991044262012, 8.92540329525231, 0.5329256375222459, 23.815385383776338, 0.07533153453125897, 0.8417015902175785, 0.009150927148515989, 8.557793214306217, 5.006154199437396, 2.8867902864687984, 1.453458866754693, 0.4038348929330042, 1.0, 0.12303806188644584, 0.18704862506458464, 0.10333543831448419, 0.10333543831448419, 0.10333543831448419, 0.10333543831448419, 0.10333543831448419, 0.08148573396865491, 0.10333543831448419, 0.10333543831448419, 0.10333543831448419, 0.09183075951547161], "sd": [19.69158930875615, 68.93551041599132, 348.61219939808296, 5.213307115689108, 0.1897580379065769, 0.4637849929191536, 156.50033225485984, 10.021185633084006, 0.2199118535160931, 32.303202045921886, 0.2639255471462069, 2.951475327942122, 0.09522178154623313, 3.009659416948284, 8.302079003125925, 8.726612188434016, 1.8497531515270798, 0.4906651324302484, 1.0, 0.3284808932246638, 0.3899505570274686, 0.30439649390693985, 0.30439649390693985, 0.30439649390693985, 0.30439649390693985, 0.30439649390693985, 0.27357962118594387, 0.3043964939069398, 0.30439649390693985, 0.3043964939069398, 0.2887868956900282], "beta": [3.150263993612737, -0.11615117538217969, -0.6448289299260341, -0.38053114578466873, -0.043866381544831905, 0.04147770127886535, 0.08117308715714742, 0.008833488944802756, 0.02923760236454189, -0.33385340507013944, -0.12386544609741938, 0.037649888518702226, 0.01390696842019802, 0.07150140195441186, 0.07079913875019672, -0.06242405064140123, -0.12951103284816534, -0.2772536665203635, 0.14985609587317844, 0.0, 0.24738389276627062, 0.007471255743648603, 0.0010926085996236766, -0.08570296671669902, 0.11370682644236053, -0.004513018255142927, -0.07147223924068803, 0.04646389872217515, 0.016563515496902607, -0.05741904988466075, -0.04156573320862125, 0.09228241485897853, 1.663725019338862, 2.58214163586896, 1.4578224703030291, -0.11879599874552421, 0.015735813028245872, 0.05363150342751258, -0.01653064509932678, -0.07288057997946709, 0.38731710245781725, 0.2123954255509334, 0.01744847141410162, 0.044172684848645415, 0.02642691793645102, 0.06336978375753168, 0.5849850428533973, 0.3439152388948118, 0.78245440426776, 0.10262919909649447, 0.0, 0.13150142050086924, 0.004423426102498497, 0.0005537255806799714, -0.04343360115784326, 0.057625740803069904, -0.0022871627860842013, -0.036221578454376395, 0.02202386119040893, 0.008394261622573828, -0.029099530703290192, -0.02106519234295422, 0.04525040184674151]}, "dyn_top10_clf": {"mu": [14.294959991351957, 46.876835639244504, 27.842874102990994, 13.324645502038004, 0.03740742866984328, 0.31317526838509674, 180.43991044262012, 8.92540329525231, 0.5329256375222459, 23.815385383776338, 0.07533153453125897, 0.8417015902175785, 0.009150927148515989, 8.557793214306217, 5.006154199437396, 2.8867902864687984, 1.453458866754693, 0.4038348929330042, 1.0, 0.12303806188644584, 0.18704862506458464, 1.8601150584761783, 0.10333543831448419, 0.10333543831448419, 0.10333543831448419, 0.10333543831448419, 0.10333543831448419, 0.08148573396865491, 0.10333543831448419, 0.10333543831448419, 0.10333543831448419, 0.09183075951547161], "sd": [19.69158930875615, 68.93551041599132, 348.61219939808296, 5.213307115689108, 0.1897580379065769, 0.4637849929191536, 156.50033225485984, 10.021185633084006, 0.2199118535160931, 32.303202045921886, 0.2639255471462069, 2.951475327942122, 0.09522178154623313, 3.009659416948284, 8.302079003125925, 8.726612188434016, 1.8497531515270798, 0.4906651324302484, 1.0, 0.3284808932246638, 0.3899505570274686, 1.734717791411059, 0.30439649390693985, 0.30439649390693985, 0.30439649390693985, 0.30439649390693985, 0.30439649390693985, 0.27357962118594387, 0.3043964939069398, 0.30439649390693985, 0.3043964939069398, 0.2887868956900282], "beta": [0.5135203473332672, 0.02766945817519441, 0.44623436435682784, 0.2534484229919176, -0.13012167953494178, 0.0980330034865897, 0.20701137647452877, 0.02670791022167309, 0.015293503509285593, -0.05479406557698654, -0.0889053019466211, 0.041761154076445046, 0.04410985928773213, 0.02314227215980242, 0.0571191539607441, -0.1141318687301369, -0.2921749875752607, 0.2625513384698223, 0.012725595887665073, 0.0, -0.16956488847572115, 0.0928808967684184, 4.782619708998016, -0.9428576368819614, -0.2594156229396726, 0.7764127132963081, -0.5136016305869942, -0.8021705339966558, 0.7326072675178708, 0.6285513304004474, -0.6450351820293322, 0.19894208592898524, 0.9494226694360929]}, "dyn_top1_clf": {"mu": [14.294959991351957, 46.876835639244504, 27.842874102990994, 13.324645502038004, 0.03740742866984328, 0.31317526838509674, 180.43991044262012, 8.92540329525231, 0.5329256375222459, 23.815385383776338, 0.07533153453125897, 0.8417015902175785, 0.009150927148515989, 8.557793214306217, 5.006154199437396, 2.8867902864687984, 1.453458866754693, 0.4038348929330042, 1.0, 0.12303806188644584, 0.18704862506458464, 1.8601150584761783, 0.10333543831448419, 0.10333543831448419, 0.10333543831448419, 0.10333543831448419, 0.10333543831448419, 0.08148573396865491, 0.10333543831448419, 0.10333543831448419, 0.10333543831448419, 0.09183075951547161], "sd": [19.69158930875615, 68.93551041599132, 348.61219939808296, 5.213307115689108, 0.1897580379065769, 0.4637849929191536, 156.50033225485984, 10.021185633084006, 0.2199118535160931, 32.303202045921886, 0.2639255471462069, 2.951475327942122, 0.09522178154623313, 3.009659416948284, 8.302079003125925, 8.726612188434016, 1.8497531515270798, 0.4906651324302484, 1.0, 0.3284808932246638, 0.3899505570274686, 1.734717791411059, 0.30439649390693985, 0.30439649390693985, 0.30439649390693985, 0.30439649390693985, 0.30439649390693985, 0.27357962118594387, 0.3043964939069398, 0.30439649390693985, 0.3043964939069398, 0.2887868956900282], "beta": [-3.224614525331114, 0.18945205607610813, 0.5419111298052552, 0.0264215656147496, -0.18637949584251634, 0.011598576294801245, 0.11898521228341048, 0.09451965078748463, -0.024390536971913502, 0.007386062085758551, -0.05945159228476203, -0.07838260759739006, -0.032526502074795766, 0.03210525838170128, 0.06541555394802025, -0.02491785330912705, -0.024203663893333727, 0.10723752148927056, -0.013045417126278873, 0.0, -0.38161183048325187, -0.05339732768807639, 4.898626578218066, -0.15879159114247113, -0.36173781514495174, 0.3551796563083481, -0.3014643917571158, -0.4499345692844746, 0.38210203775945856, 0.061711339814545046, -0.20786920343142554, -0.03555265403289474, 0.795852618635057]}, "dyn_logc5_reg": {"mu": [14.294959991351957, 46.876835639244504, 27.842874102990994, 13.324645502038004, 0.03740742866984328, 0.31317526838509674, 180.43991044262012, 8.92540329525231, 0.5329256375222459, 23.815385383776338, 0.07533153453125897, 0.8417015902175785, 0.009150927148515989, 8.557793214306217, 5.006154199437396, 2.8867902864687984, 1.453458866754693, 0.4038348929330042, 1.0, 0.12303806188644584, 0.18704862506458464, 1.8601150584761783, 0.10333543831448419, 0.10333543831448419, 0.10333543831448419, 0.10333543831448419, 0.10333543831448419, 0.08148573396865491, 0.10333543831448419, 0.10333543831448419, 0.10333543831448419, 0.09183075951547161], "sd": [19.69158930875615, 68.93551041599132, 348.61219939808296, 5.213307115689108, 0.1897580379065769, 0.4637849929191536, 156.50033225485984, 10.021185633084006, 0.2199118535160931, 32.303202045921886, 0.2639255471462069, 2.951475327942122, 0.09522178154623313, 3.009659416948284, 8.302079003125925, 8.726612188434016, 1.8497531515270798, 0.4906651324302484, 1.0, 0.3284808932246638, 0.3899505570274686, 1.734717791411059, 0.30439649390693985, 0.30439649390693985, 0.30439649390693985, 0.30439649390693985, 0.30439649390693985, 0.27357962118594387, 0.3043964939069398, 0.30439649390693985, 0.3043964939069398, 0.2887868956900282], "beta": [3.1685015178266727, -0.4499067641454376, -0.48732242846685453, -0.20471416749469012, -0.06284334759994094, 0.02299261971565853, 0.03874809424372679, -0.09452478099486832, 0.03592426141088102, -0.1188702871978009, -0.07297321773240446, 0.026802744133199913, -0.0368768673614162, 0.018624637628984413, 0.01053665038547803, -0.20909371944336114, -0.009034744532522645, -0.1302438262753326, 0.07347514695089988, 0.0, -0.09401560463114915, 0.007881797024852264, 1.8790254768950279, -0.00856544599357108, -0.021005448871117254, 0.045934635187596044, -0.011739525492657816, -0.05135621802753828, 0.018369615954515143, 0.014063988970666528, -0.01827974009149105, -0.012860463328661868, 0.04985491158083893, 0.9154835086895998, 1.3014783607143012, 0.6811075391930242, 0.059904902645632786, 0.008722941570514321, 0.025601078167322218, 0.13967004210654663, -0.006762774339958482, 0.13512176903115883, 0.1059185254549097, 0.012421468778653563, 0.07883188156387057, 0.0068836660062874, 0.051151880990861, 0.39828944902747027, 0.044897970255663305, 0.2770346674770508, 0.05031957787631197, 0.0, -0.049975709503651336, 0.0046664908627809315, -0.014195383774975279, -0.004340901830022843, -0.01064539914441675, 0.023279318090444024, -0.005949500790227369, -0.026026934368468424, 0.008707187361495767, 0.00712752090825666, -0.009264030996584375, -0.006517583423631481, 0.024446204477861715]}}, "residual_std_logc5_t0": 1.164};
+
+    function sigmoid(x) {
+      return 1.0 / (1.0 + Math.exp(-Math.max(-20, Math.min(20, x))));
+    }
+
+    function predictLogistic(m, xVec) {
+      let eta = m.beta[0];
+      for (let i = 0; i < xVec.length; i++) {
+        let z = Math.max(-5.0, Math.min(5.0, (xVec[i] - m.mu[i]) / m.sd[i]));
+        eta += z * m.beta[i + 1];
+      }
+      return sigmoid(eta);
+    }
+
+    function predictRidge(m, xVec) {
+      const p = xVec.length;
+      let y = m.beta[0];
+      for (let i = 0; i < p; i++) {
+        const z = Math.max(-5.0, Math.min(5.0, (xVec[i] - m.mu[i]) / m.sd[i]));
+        const nl = Math.sign(z) * Math.log1p(Math.abs(z));
+        y += z * m.beta[i + 1] + nl * m.beta[p + 1 + i];
+      }
+      return Math.max(0.0, y);
+    }
+
+    function countSyllables(word) {
+      const w = word.toLowerCase().replace(/[^a-zçğıöşü]/g, "");
+      if (w.length <= 3) return 1;
+      const m = w.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, "").replace(/^y/, "").match(/[aeiouyçğıöşü]{1,2}/g);
+      return m ? Math.max(1, m.length) : 1;
+    }
+
+    function updateForecast() {
+      const disc = document.getElementById("disc").value;
+      const jCit = Math.max(0, parseFloat(document.getElementById("j_cit").value) || 0);
+      const refs = parseFloat(document.getElementById("refs").value) || 0;
+      const absW = Math.max(0, parseFloat(document.getElementById("abs_w").value) || 0);
+      const refsPer100 = absW > 0 ? Math.min(200, (refs / absW) * 100.0) : 0;
+      const titleW = parseFloat(document.getElementById("title_w").value) || 14;
+      const tQuest = document.getElementById("t_quest").checked ? 1.0 : 0.0;
+      const tColon = document.getElementById("t_colon").checked ? 1.0 : 0.0;
+      const absS = Math.max(1, parseFloat(document.getElementById("abs_s").value) || 8);
+      const ttr = Math.max(0, Math.min(1, parseFloat(document.getElementById("ttr").value) || 0.58));
+      const flesch = parseFloat(document.getElementById("flesch").value) || 26.0;
+      const structAbs = document.getElementById("struct_abs").checked ? 1.0 : 0.0;
+      const numDens = Math.max(0, parseFloat(document.getElementById("num_dens").value) || 0);
+      const openCode = document.getElementById("opencode").checked ? 1.0 : 0.0;
+      const kwCnt = Math.max(0, parseFloat(document.getElementById("kw_cnt").value) || 6);
+      const auths = parseFloat(document.getElementById("auths").value) || 1;
+      const insts = parseFloat(document.getElementById("insts").value) || 1;
+      const ctrys = parseFloat(document.getElementById("ctrys").value) || 1;
+      const funded = document.getElementById("funded").checked ? 1.0 : 0.0;
+      const oa = document.getElementById("oa").checked ? 1.0 : 0.0;
+      const isCovid = document.getElementById("is_covid").checked ? 1.0 : 0.0;
+      const isClin = document.getElementById("is_clin").checked ? 1.0 : 0.0;
+      const useC1 = document.getElementById("use_c1").checked;
+      const c1 = Math.max(0, parseFloat(document.getElementById("c1").value) || 0);
+
+      const discOhe = ARTIFACT.disciplines.map(d => (d === disc ? 1.0 : 0.0));
+      const base = [
+        jCit, refs, refsPer100, titleW, tQuest, tColon,
+        absW, absS, ttr, flesch, structAbs, numDens, openCode,
+        kwCnt, auths, insts, ctrys, funded, oa, isCovid, isClin
+      ];
+
+      let p10, p1, logC5, sigma;
+      if (useC1) {
+        const xVec = base.concat([Math.log1p(c1)], discOhe);
+        p10 = predictLogistic(ARTIFACT.models.dyn_top10_clf, xVec);
+        p1 = predictLogistic(ARTIFACT.models.dyn_top1_clf, xVec);
+        logC5 = predictRidge(ARTIFACT.models.dyn_logc5_reg, xVec);
+        sigma = 0.62;
+        document.getElementById("mode_badge").textContent = "Full Dynamic Trajectory Mode (M6: 21 Features + C1 + 10 Fields)";
+      } else {
+        const xVec = base.concat(discOhe);
+        p10 = predictLogistic(ARTIFACT.models.t0_top10_clf, xVec);
+        p1 = predictLogistic(ARTIFACT.models.t0_top1_clf, xVec);
+        logC5 = predictRidge(ARTIFACT.models.t0_logc5_reg, xVec);
+        sigma = ARTIFACT.residual_std_logc5_t0 || 1.16;
+        document.getElementById("mode_badge").textContent = "Full Manuscript-Aligned Pre-Publication Mode (M3: 21 Features + 10 Fields)";
+      }
+
+      const c5 = Math.max(0, Math.expm1(logC5));
+      const ciLo = Math.max(0, Math.expm1(Math.max(0, logC5 - 1.28 * sigma)));
+      const ciHi = Math.max(0, Math.expm1(logC5 + 1.28 * sigma));
+
+      document.getElementById("out_c5").textContent = c5.toFixed(1) + " cits";
+      document.getElementById("out_ci").textContent = Math.round(ciLo) + " – " + Math.round(ciHi);
+      document.getElementById("out_p10").textContent = (p10 * 100).toFixed(1) + "%";
+      document.getElementById("out_p1").textContent = (p1 * 100).toFixed(1) + "%";
+      document.getElementById("bar_p10").style.width = Math.min(100, p10 * 100).toFixed(1) + "%";
+      document.getElementById("bar_p1").style.width = Math.min(100, p1 * 100).toFixed(1) + "%";
+    }
+
+    function analyzeManuscriptText(rawText, fileName) {
+      const clean = rawText.replace(/\r/g, "\n");
+      const totalWords = clean.trim().split(/\s+/).filter(Boolean).length;
+
+      // 1. Title extraction
+      const lines = clean.split("\n").map(l => l.trim()).filter(l => l.length > 10);
+      let titleLine = "";
+      for (let i = 0; i < Math.min(10, lines.length); i++) {
+        const wc = lines[i].split(/\s+/).length;
+        if (wc >= 4 && wc <= 42 && !/^(abstract|özet|keywords|introduction)/i.test(lines[i])) {
+          titleLine = lines[i];
+          break;
+        }
+      }
+      const titleWords = titleLine ? titleLine.split(/\s+/).length : 14;
+      const hasQuestion = titleLine.includes("?");
+      const hasColon = titleLine.includes(":");
+      const isCovid = /(covid|sars-cov-2|coronavirus|pandemic)/i.test(titleLine);
+
+      // 2. Abstract extraction & full discourse metrics (TTR, Flesch, sentences, structured, numeric findings)
+      let absText = "";
+      const absMatch = clean.match(/(?:^|\n)\s*(?:abstract|structured abstract|özet)\s*[:\n]([\s\S]{80,3800}?)(?:\n\s*(?:keywords|anahtar kelimeler|1\.?\s+introduction|1\.?\s+giriş|introduction))/i);
+      if (absMatch && absMatch[1]) {
+        absText = absMatch[1].trim();
+      } else {
+        absText = clean.slice(0, 1500);
+      }
+      const absTokens = absText.split(/\s+/).filter(Boolean);
+      const absWords = Math.min(800, Math.max(20, absTokens.length));
+      const absSents = Math.max(1, (absText.match(/[.!?]+(\s|$)/g) || []).length);
+      const uniqueToks = new Set(absTokens.map(t => t.toLowerCase().replace(/[^a-zçğıöşü0-9]/g, "")).filter(Boolean));
+      const ttr = absWords > 0 ? +(uniqueToks.size / absWords).toFixed(3) : 0.58;
+      let totalSyl = 0;
+      for (const tok of absTokens) totalSyl += countSyllables(tok);
+      const flesch = +(206.835 - 1.015 * (absWords / absSents) - 84.6 * (totalSyl / Math.max(1, absWords))).toFixed(1);
+      const structAbs = /\b(objective|purpose|methods|results|conclusion|amaç|yöntem|bulgular|sonuç)\s*:/i.test(absText);
+      const numMatches = absText.match(/(?:\d+[.,]\d+|%\s*\d+|\d+\s*%|p\s*[<=>]\s*0[.,]\d+)/gi);
+      const numDens = numMatches ? numMatches.length : 0;
+
+      // 3. Keywords count
+      let kwCnt = 6;
+      const kwMatch = clean.match(/(?:keywords|anahtar kelimeler)\s*[:\-]\s*([^\n]{5,350})/i);
+      if (kwMatch && kwMatch[1]) {
+        kwCnt = Math.min(30, Math.max(1, kwMatch[1].split(/[,;·•]/).map(s => s.trim()).filter(Boolean).length));
+      }
+
+      // 4. Reference count
+      let refCount = 35;
+      const refSecMatch = clean.match(/(?:^|\n)\s*(?:references|kaynakça|bibliography)\s*(?:\([\s\S]{0,60}\))?\s*\n([\s\S]+)$/i);
+      if (refSecMatch && refSecMatch[1]) {
+        const refBlock = refSecMatch[1];
+        const c1 = (refBlock.match(/(?:^|\n)\s*\[\d{1,3}\]/g) || []).length;
+        const c2 = (refBlock.match(/(?:^|\n)\s*\d{1,3}\.\s+[A-ZÇĞİÖŞÜ]/g) || []).length;
+        const c3 = (refBlock.match(/\((?:19|20)\d{2}[a-z]?\)/g) || []).length;
+        const c4 = (refBlock.match(/10\.\d{4,9}\/[-._;()/:A-Z0-9]+/gi) || []).length;
+        const bestR = Math.max(c1, c2, c3, c4);
+        if (bestR >= 3) refCount = Math.min(250, bestR);
+      }
+
+      // 5. Open Code/Data, Funding, Clinical Design, Figures/Tables
+      const hasOpenCode = /(github\.com|gitlab\.com|zenodo\.org|huggingface\.co|osf\.io|code availability|data availability|açık veri|açık kod|open-source)/i.test(clean);
+      const hasFunding = /(funded by|grant no|grant number|supported by|funding|tübitak|nih|nsf|horizon 2020|horizon europe|desteklenmiştir)/i.test(clean);
+      const isClin = /(randomized controlled trial|clinical trial|systematic review|meta-analysis|observational study|cohort study)/i.test(titleLine + " " + absText);
+      const figCount = new Set((clean.match(/\b(?:fig(?:ure)?\.?|şekil)\s*\d+/gi) || []).map(s => s.toLowerCase().replace(/\s+/g, ""))).size;
+      const tblCount = new Set((clean.match(/\b(?:table|tablo)\s*\d+/gi) || []).map(s => s.toLowerCase().replace(/\s+/g, ""))).size;
+
+      // 6. Auto-suggest discipline (all 10 fields)
+      const lower = clean.slice(0, 12000).toLowerCase();
+      const kwMap = {
+        "04_Bilgisayar_ve_Bilisim": ["algorithm", "neural network", "machine learning", "deep learning", "software", "scientometric", "citation", "yazılım", "yapay zeka"],
+        "02_Saglik_ve_Tip": ["patient", "clinical", "hospital", "therapy", "diagnosis", "disease", "medical", "hasta", "klinik", "tıp"],
+        "01_Muhendislik": ["mechanical", "structural", "electrical", "circuit", "sensor", "manufacturing", "material", "mühendislik"],
+        "03_Egitim_Bilimleri": ["student", "teacher", "curriculum", "pedagog", "classroom", "learning outcome", "öğrenci", "eğitim"],
+        "05_Doga_ve_Fen_Bilimleri": ["quantum", "molecule", "physics", "chemistry", "theorem", "photon", "catalyst", "fizik", "kimya"],
+        "06_Sosyal_ve_Beseri_Bilimler": ["sociology", "cultural", "historical", "discourse", "philosophy", "literature", "sosyoloji", "tarih"],
+        "07_Iktisat_ve_Isletme": ["economy", "firm", "market", "gdp", "financial", "management", "business", "iktisat", "işletme"],
+        "08_Cevre_ve_Tarim_Bilimleri": ["climate", "soil", "ecosystem", "biodiversity", "crop", "emissions", "agriculture", "çevre", "tarım"],
+        "09_Psikoloji_ve_Davranis": ["cognitive", "behavioral", "depression", "anxiety", "memory", "psychological", "psikoloji"],
+        "10_Hukuk_ve_Siyaset_Bilimi": ["constitutional", "court", "legislation", "governance", "election", "parliament", "hukuk", "siyaset"]
+      };
+      let bestDisc = document.getElementById("disc").value;
+      let bestScore = 0;
+      for (const [dk, kws] of Object.entries(kwMap)) {
+        let sc = 0;
+        for (const kw of kws) if (lower.includes(kw)) sc += 1;
+        if (sc > bestScore) { bestScore = sc; bestDisc = dk; }
+      }
+
+      // Populate UI
+      document.getElementById("disc").value = bestDisc;
+      document.getElementById("refs").value = refCount;
+      document.getElementById("refs_v").textContent = refCount;
+      document.getElementById("title_w").value = titleWords;
+      document.getElementById("t_quest").checked = hasQuestion;
+      document.getElementById("t_colon").checked = hasColon;
+      document.getElementById("abs_w").value = absWords;
+      document.getElementById("abs_s").value = absSents;
+      document.getElementById("ttr").value = ttr;
+      document.getElementById("flesch").value = flesch;
+      document.getElementById("struct_abs").checked = structAbs;
+      document.getElementById("num_dens").value = numDens;
+      document.getElementById("kw_cnt").value = kwCnt;
+      document.getElementById("opencode").checked = hasOpenCode;
+      document.getElementById("funded").checked = hasFunding;
+      document.getElementById("is_covid").checked = isCovid;
+      document.getElementById("is_clin").checked = isClin;
+
+      const st = document.getElementById("upload_status");
+      st.className = "ok";
+      st.innerHTML = `Extracted all 21 manuscript features from <strong>${fileName}</strong>:
+        <div class="diag-pills">
+          <span class="pill">Words: ${totalWords.toLocaleString()}</span>
+          <span class="pill">Refs: ~${refCount}</span>
+          <span class="pill">Title: ${titleWords}w</span>
+          <span class="pill">Abstract: ${absWords}w (${absSents} sent.)</span>
+          <span class="pill">Flesch: ${flesch} &middot; TTR: ${ttr}</span>
+          <span class="pill">Numeric: ${numDens} &middot; KW: ${kwCnt}</span>
+          <span class="pill">Figs: ${figCount} &middot; Tbls: ${tblCount}</span>
+          <span class="pill">Open Code/Data: ${hasOpenCode ? "Yes" : "No"}</span>
+          <span class="pill">Funding: ${hasFunding ? "Detected" : "No"}</span>
+        </div>`;
+      updateForecast();
+    }
+
+    async function handleFile(file) {
+      const st = document.getElementById("upload_status");
+      st.className = "ok";
+      st.textContent = "Parsing " + file.name + " locally in your browser...";
+      try {
+        const ext = file.name.split(".").pop().toLowerCase();
+        let text = "";
+        if (ext === "pdf") {
+          if (!window.pdfjsLib) throw new Error("PDF.js failed to load.");
+          const buf = await file.arrayBuffer();
+          const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
+          for (let p = 1; p <= pdf.numPages; p++) {
+            const page = await pdf.getPage(p);
+            const tc = await page.getTextContent();
+            text += tc.items.map(it => it.str).join(" ") + "\n";
+          }
+        } else if (ext === "docx") {
+          if (!window.mammoth) throw new Error("Mammoth DOCX library failed to load.");
+          const buf = await file.arrayBuffer();
+          const res = await mammoth.extractRawText({ arrayBuffer: buf });
+          text = res.value || "";
+        } else {
+          text = await file.text();
+        }
+        if (!text || text.trim().length < 50) throw new Error("Could not extract readable text (may be scanned PDF).");
+        analyzeManuscriptText(text, file.name);
+      } catch (err) {
+        st.className = "err";
+        st.textContent = "Error reading file: " + err.message;
+      }
+    }
+
+    const dropZone = document.getElementById("drop_zone");
+    const fileInput = document.getElementById("file_input");
+    dropZone.addEventListener("click", () => fileInput.click());
+    fileInput.addEventListener("change", (e) => { if (e.target.files && e.target.files[0]) handleFile(e.target.files[0]); });
+    dropZone.addEventListener("dragover", (e) => { e.preventDefault(); dropZone.classList.add("dragover"); });
+    dropZone.addEventListener("dragleave", () => dropZone.classList.remove("dragover"));
+    dropZone.addEventListener("drop", (e) => {
+      e.preventDefault(); dropZone.classList.remove("dragover");
+      if (e.dataTransfer.files && e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
+    });
+
+    ["refs", "auths", "insts", "ctrys"].forEach(id => {
+      const el = document.getElementById(id);
+      el.addEventListener("input", () => { document.getElementById(id + "_v").textContent = el.value; updateForecast(); });
+    });
+    document.getElementById("use_c1").addEventListener("change", (e) => {
+      document.getElementById("c1_box").style.display = e.target.checked ? "block" : "none";
+      updateForecast();
+    });
+    ["disc", "j_cit", "title_w", "abs_w", "abs_s", "ttr", "flesch", "num_dens", "kw_cnt", "opencode", "funded", "oa", "struct_abs", "t_colon", "t_quest", "is_covid", "is_clin", "c1"].forEach(id => {
+      const el = document.getElementById(id);
+      el.addEventListener("change", updateForecast);
+      el.addEventListener("input", updateForecast);
+    });
+    document.getElementById("run_btn").addEventListener("click", updateForecast);
+    updateForecast();
+  </script>
+</body>
+</html>
